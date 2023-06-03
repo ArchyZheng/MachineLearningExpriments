@@ -75,7 +75,7 @@ class LightModule(pl.LightningModule):
         return loss
 
     def configure_optimizers(self):
-        optimizer = torch.optim.Adam(self.module.parameters(), lr=1e-3)
+        optimizer = torch.optim.SGD(self.module.parameters(), lr=1e-3)
         return optimizer
 
 # %%
@@ -93,3 +93,4 @@ comet_logger = CometLogger(
 train = LightModule()
 trainer = pl.Trainer(logger=[comet_logger], max_epochs=100)
 trainer.fit(model=train, train_dataloaders=train_dataloader)
+comet_logger.experiment.end()
